@@ -2,6 +2,7 @@
 
 import React from 'react'
 import { MessageSquare, X, Send } from 'lucide-react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { usePrototypeStore } from '../../store/prototypeStore'
 import MessageBubble from './MessageBubble'
 import { Button } from '../../../components/ui/button'
@@ -87,24 +88,34 @@ export function CopilotAssistant() {
   return (
     <>
       {/* AI Copilot Panel - Flexbox layout that resizes main content */}
-      {isAIAssistantOpen && (
-        <div 
-          className="border-l border-gray-200 flex flex-col flex-shrink-0"
-          style={{ 
-            backgroundColor: '#ffffff',
-            width: '400px',
-            height: '100%',
-            overflow: 'hidden',
-            borderTopLeftRadius: '1rem',
-            borderBottomLeftRadius: '1rem',
-            borderTopRightRadius: '1rem',
-            borderBottomRightRadius: '1rem'
-          }}
-          onWheel={(e) => e.stopPropagation()}
-          onTouchMove={(e) => e.stopPropagation()}
-          onScroll={(e) => e.stopPropagation()}
-          onFocus={(e) => e.stopPropagation()}
-        >
+      <AnimatePresence mode="wait">
+        {isAIAssistantOpen && (
+          <motion.div 
+            initial={{ x: 400, opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
+            exit={{ x: 400, opacity: 0 }}
+            transition={{ 
+              type: "spring",
+              stiffness: 300,
+              damping: 30,
+              duration: 0.3
+            }}
+            className="border-l border-gray-200 flex flex-col flex-shrink-0"
+            style={{ 
+              backgroundColor: '#ffffff',
+              width: '400px',
+              height: '100%',
+              overflow: 'hidden',
+              borderTopLeftRadius: '1rem',
+              borderBottomLeftRadius: '1rem',
+              borderTopRightRadius: '1rem',
+              borderBottomRightRadius: '1rem'
+            }}
+            onWheel={(e) => e.stopPropagation()}
+            onTouchMove={(e) => e.stopPropagation()}
+            onScroll={(e) => e.stopPropagation()}
+            onFocus={(e) => e.stopPropagation()}
+          >
           {/* Header - FIXED at top with clean design */}
           <div className="flex-shrink-0 px-4 py-3 border-b border-gray-200 bg-white" style={{ borderTopLeftRadius: '1rem', borderTopRightRadius: '1rem' }}>
             <div className="flex items-center justify-between">
@@ -141,40 +152,79 @@ export function CopilotAssistant() {
             {messages.length === 0 && showSuggestions ? (
               // Empty state - suggestions at bottom
               <div className="flex-1 flex flex-col justify-end p-4">
-                <div className="space-y-2">
+                <motion.div 
+                  initial={{ y: 20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ delay: 0.2, type: "spring", stiffness: 400, damping: 25 }}
+                  className="space-y-2"
+                >
                   {/* Only Suggestions */}
                   <p className="text-sm font-medium text-gray-700">Suggestions:</p>
                   {suggestions.slice(0, 3).map((suggestion, index) => (
-                    <Button
+                    <motion.div
                       key={index}
-                      variant="ghost"
-                      size="sm"
-                      onClick={() => handleSuggestionClick(suggestion)}
-                      className="w-full text-left justify-start h-auto py-2 px-3 text-sm"
+                      initial={{ x: -20, opacity: 0 }}
+                      animate={{ x: 0, opacity: 1 }}
+                      transition={{ 
+                        delay: 0.3 + (index * 0.1),
+                        type: "spring",
+                        stiffness: 400,
+                        damping: 25
+                      }}
                     >
-                      {suggestion}
-                    </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => handleSuggestionClick(suggestion)}
+                        className="w-full text-left justify-start h-auto py-2 px-3 text-sm"
+                      >
+                        {suggestion}
+                      </Button>
+                    </motion.div>
                   ))}
-                </div>
+                </motion.div>
               </div>
               ) : (
                 <div className="p-4 space-y-4">
                   {/* Chat Messages */}
-                  {messages.map((message) => (
-                    <MessageBubble key={message.id} message={message} />
-                  ))}
+                  <AnimatePresence>
+                    {messages.map((message, index) => (
+                      <motion.div
+                        key={message.id}
+                        initial={{ y: 20, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        exit={{ y: -20, opacity: 0 }}
+                        transition={{ 
+                          delay: index * 0.1,
+                          type: "spring",
+                          stiffness: 400,
+                          damping: 25
+                        }}
+                      >
+                        <MessageBubble message={message} />
+                      </motion.div>
+                    ))}
+                  </AnimatePresence>
 
                   {/* Typing Indicator */}
-                  {isTyping && (
-                    <div className="flex items-center space-x-2 p-3 bg-gray-50 rounded-lg border border-gray-200">
-                      <div className="flex space-x-1">
-                        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" />
-                        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }} />
-                        <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }} />
-                      </div>
-                      <span className="text-sm text-gray-500">Krutrim is thinking...</span>
-                    </div>
-                  )}
+                  <AnimatePresence>
+                    {isTyping && (
+                      <motion.div 
+                        initial={{ y: 20, opacity: 0 }}
+                        animate={{ y: 0, opacity: 1 }}
+                        exit={{ y: -20, opacity: 0 }}
+                        transition={{ type: "spring", stiffness: 400, damping: 25 }}
+                        className="flex items-center space-x-2 p-3 bg-gray-50 rounded-lg border border-gray-200"
+                      >
+                        <div className="flex space-x-1">
+                          <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" />
+                          <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }} />
+                          <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }} />
+                        </div>
+                        <span className="text-sm text-gray-500">Krutrim is thinking...</span>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
 
                   <div ref={messagesEndRef} />
                 </div>
@@ -221,8 +271,9 @@ export function CopilotAssistant() {
               </span>
             </div>
           </div>
-        </div>
-      )}
+        </motion.div>
+        )}
+      </AnimatePresence>
     </>
   )
 }

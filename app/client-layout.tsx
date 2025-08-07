@@ -4,6 +4,7 @@ import type React from "react"
 
 import { useState, useEffect } from "react"
 import { usePathname } from "next/navigation"
+import { motion } from "framer-motion"
 import { AuthProvider } from "@/components/auth/auth-provider"
 import { TopHeader } from "@/components/navigation/top-header"
 import { LeftNavigation } from "@/components/navigation/left-navigation"
@@ -20,7 +21,7 @@ export default function ClientLayout({
   const pathname = usePathname()
   const [isMounted, setIsMounted] = useState(false)
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false)
-  const { toggleAssistant } = usePrototypeStore()
+  const { toggleAssistant, isAIAssistantOpen } = usePrototypeStore()
 
   useEffect(() => {
     setIsMounted(true)
@@ -72,10 +73,24 @@ export default function ClientLayout({
               />
             )}
 
-            {/* Main Content Area - Resizes when AI Panel opens */}
+            {/* Main Content Area - Proper width animation */}
             <div className="flex flex-1 overflow-hidden mx-4 mb-2 gap-4">
-              {/* Main Content - Shrinks when AI panel opens */}
-              <main className="flex-1 relative z-0 transition-all duration-300 ease-in-out rounded-2xl" style={{ backgroundColor: '#ffffff' }}>
+              {/* Main Content - Simple width animation */}
+              <motion.main 
+                className="relative z-0 rounded-2xl" 
+                style={{ 
+                  backgroundColor: '#ffffff'
+                }}
+                animate={{
+                  width: isAIAssistantOpen ? "calc(100% - 400px)" : "100%"
+                }}
+                transition={{
+                  type: "spring",
+                  stiffness: 300,
+                  damping: 30,
+                  duration: 0.3
+                }}
+              >
                 <ScrollFadeContainer 
                   className="h-full"
                   fadeHeight={24}
@@ -86,7 +101,7 @@ export default function ClientLayout({
                     {children}
                   </div>
                 </ScrollFadeContainer>
-              </main>
+              </motion.main>
 
               {/* AI Copilot Panel - Part of flex layout */}
               <CopilotAssistant />

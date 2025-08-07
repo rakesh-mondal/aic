@@ -28,10 +28,12 @@ import { Badge } from "@/components/ui/badge"
 import { useAuth } from "@/components/auth/auth-provider"
 import { GlobalSearch } from "@/components/search/global-search"
 import { Progress } from "@/components/ui/progress"
+import { AnimatedGradientText } from "@/components/ui/animated-gradient-text"
 
 interface TopHeaderProps {
   onMenuClick?: () => void
   isMobile?: boolean
+  onAIToggle?: () => void
 }
 
 interface User {
@@ -39,7 +41,7 @@ interface User {
   email: string
 }
 
-export function TopHeader({ onMenuClick, isMobile }: TopHeaderProps) {
+export function TopHeader({ onMenuClick, isMobile, onAIToggle }: TopHeaderProps) {
   const { user, logout } = useAuth() as { user: User | null, logout: () => void }
 
   // Sample regions for the region selector
@@ -137,6 +139,29 @@ export function TopHeader({ onMenuClick, isMobile }: TopHeaderProps) {
               </div>
             </DropdownMenuContent>
           </DropdownMenu>
+
+          {/* Krutrim AI Button */}
+          <div onClick={onAIToggle} className="cursor-pointer">
+            <AnimatedGradientText className="bg-white/90 hover:bg-white px-6 py-2">
+              <div className="flex items-center gap-2">
+                <span 
+                  className="inline-flex w-4 h-4 animate-pulse animate-gradient bg-gradient-to-r from-[#ffaa40] via-[#9c40ff] to-[#ffaa40] bg-[length:var(--bg-size)_100%]"
+                  style={{ 
+                    animation: 'pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+                    mask: `url("data:image/svg+xml,${encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 18"><g id="ai-cloud-spark--cloud-internet-server-network-artificial-intelligence-ai"><path id="Subtract" fill="currentColor" fill-rule="evenodd" d="M6.481285714285716 1.026a5.6160000000000005 5.6160000000000005 0 0 1 8.543571428571429 4.006285714285715 4.152857142857143 4.152857142857143 0 0 1 0.29185714285714287 7.855714285714287c-0.1092857142857143 -1.0812857142857144 -0.8395714285714286 -2.100857142857143 -2.190857142857143 -2.3361428571428573a1.8552857142857144 1.8552857142857144 0 0 1 -1.510714285714286 -1.5030000000000001l-0.012857142857142859 -0.05657142857142857c-0.6351428571428572 -2.79 -4.614428571428571 -2.7720000000000002 -5.225142857142858 0.02185714285714286l-0.02957142857142857 0.135A1.8334285714285714 1.8334285714285714 0 0 1 4.872857142857144 10.553142857142857c-1.272857142857143 0.22242857142857142 -1.9954285714285716 1.1404285714285716 -2.163857142857143 2.1510000000000002A4.745571428571429 4.745571428571429 0 0 1 4.242857142857143 3.705428571428572 5.6160000000000005 5.6160000000000005 0 0 1 6.48 1.026Z" clip-rule="evenodd"/><path id="Union" fill="currentColor" fill-rule="evenodd" d="M10.035 9.349714285714287c-0.25328571428571434 -1.1147142857142858 -1.8437142857142859 -1.1082857142857143 -2.088 0.009000000000000001l-0.010285714285714287 0.046285714285714284 -0.020571428571428574 0.09128571428571429A3.440571428571429 3.440571428571429 0 0 1 5.148 12.137142857142857c-1.161 0.20185714285714287 -1.161 1.8694285714285714 0 2.0700000000000003a3.440571428571429 3.440571428571429 0 0 1 2.7720000000000002 2.6550000000000002l0.025714285714285717 0.12471428571428572c0.2455714285714286 1.1172857142857144 1.836 1.1237142857142859 2.0892857142857144 0.009000000000000001l0.03342857142857143 -0.14400000000000002a3.4624285714285716 3.4624285714285716 0 0 1 2.7822857142857145 -2.640857142857143c1.1635714285714287 -0.20314285714285715 1.1635714285714287 -1.8732857142857144 0 -2.0764285714285715a3.4624285714285716 3.4624285714285716 0 0 1 -2.8028571428571434 -2.729571428571429l-0.012857142857142859 -0.055285714285714285Z" clip-rule="evenodd"/></g></svg>')}")`,
+                    maskSize: 'contain',
+                    maskRepeat: 'no-repeat',
+                    maskPosition: 'center'
+                  }}
+                />
+                <span
+                  className="inline animate-gradient bg-gradient-to-r from-[#ffaa40] via-[#9c40ff] to-[#ffaa40] bg-[length:var(--bg-size)_100%] bg-clip-text text-transparent font-medium"
+                >
+                  Krutrim AI
+                </span>
+              </div>
+            </AnimatedGradientText>
+          </div>
 
           {/* Notifications */}
           <DropdownMenu>

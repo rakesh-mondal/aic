@@ -7,6 +7,7 @@ import { CommandPaletteProvider } from "@/components/command/command-palette-pro
 import { AccessBanner } from "@/components/access-control/access-banner"
 import { FeatureRestriction } from "@/components/access-control/feature-restriction"
 import { Button } from "@/components/ui/button"
+
 import { Stepper, StepperItem, StepperIndicator, StepperTitle, StepperDescription, StepperSeparator, StepperNav, StepperPanel, StepperContent } from '@/components/ui/stepper'
 import { Badge } from "@/components/ui/badge"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
@@ -702,6 +703,8 @@ export default function DashboardPage() {
             </form>
           </AlertDialogContent>
         </AlertDialog>
+
+
       </div>
     </CommandPaletteProvider>
   )

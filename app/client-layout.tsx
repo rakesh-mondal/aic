@@ -9,6 +9,8 @@ import { TopHeader } from "@/components/navigation/top-header"
 import { LeftNavigation } from "@/components/navigation/left-navigation"
 import { Toaster } from "@/components/ui/toaster"
 import { ScrollFadeContainer } from "@/components/ui/scroll-fade-container"
+import { CopilotAssistant } from "@/src/components/AIPrototype"
+import { usePrototypeStore } from "@/src/store/prototypeStore"
 
 export default function ClientLayout({
   children,
@@ -18,6 +20,7 @@ export default function ClientLayout({
   const pathname = usePathname()
   const [isMounted, setIsMounted] = useState(false)
   const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false)
+  const { toggleAssistant } = usePrototypeStore()
 
   useEffect(() => {
     setIsMounted(true)
@@ -45,6 +48,7 @@ export default function ClientLayout({
           <TopHeader
             onMenuClick={() => setMobileSidebarOpen(true)}
             isMobile={!isMounted ? false : window.innerWidth < 1024}
+            onAIToggle={toggleAssistant}
           />
 
           <div className="flex flex-1 overflow-hidden">
@@ -68,22 +72,25 @@ export default function ClientLayout({
               />
             )}
 
-            {/* Main Content with Scroll Fade */}
-            <main 
-              className="flex-1 relative z-0 mx-4 mb-2 rounded-2xl" 
-              style={{ backgroundColor: '#ffffff' }}
-            >
-              <ScrollFadeContainer 
-                className="h-full"
-                fadeHeight={24}
-                showTopFade={true}
-                showBottomFade={true}
-              >
-                <div className="h-full w-full p-4">
-                  {children}
-                </div>
-              </ScrollFadeContainer>
-            </main>
+            {/* Main Content Area - Resizes when AI Panel opens */}
+            <div className="flex flex-1 overflow-hidden mx-4 mb-2 gap-4">
+              {/* Main Content - Shrinks when AI panel opens */}
+              <main className="flex-1 relative z-0 transition-all duration-300 ease-in-out rounded-2xl" style={{ backgroundColor: '#ffffff' }}>
+                <ScrollFadeContainer 
+                  className="h-full"
+                  fadeHeight={24}
+                  showTopFade={true}
+                  showBottomFade={true}
+                >
+                  <div className="h-full w-full p-4">
+                    {children}
+                  </div>
+                </ScrollFadeContainer>
+              </main>
+
+              {/* AI Copilot Panel - Part of flex layout */}
+              <CopilotAssistant />
+            </div>
           </div>
         </div>
       )}

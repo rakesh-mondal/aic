@@ -25,7 +25,7 @@ import {
   KeyIcon, 
   BoltIcon 
 } from "@heroicons/react/24/outline"
-import { Settings, HelpCircle, BookOpen, ChevronRight, ChevronLeft, Network, HardDrive, Map, X } from "lucide-react"
+import { Settings, BookOpen, ChevronRight, ChevronLeft, Network, HardDrive, Map, X } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip"
@@ -227,11 +227,6 @@ const navigationConfig = {
         ],
       },
     ],
-  },
-  support: {
-    href: "/support",
-    icon: <HelpCircle className="h-[18px] w-[18px] text-muted-foreground" />,
-    label: "Support",
   },
   documentation: {
     href: "https://krutrim-cloud.gitbook.io/krutrim-cloud-docs",
@@ -709,8 +704,8 @@ export function LeftNavigation({ onClose }: LeftNavigationProps) {
         </Button>
       </div>
 
-      {/* Main navigation items */}
-      <div className="flex-1 overflow-y-auto pb-3 px-3">
+      {/* Main navigation items - scrollable */}
+      <div className="flex-1 overflow-y-auto pb-3 px-3" style={{ minHeight: 0, maxHeight: 'calc(100vh - 160px)' }}>
         <div className="flex flex-col gap-[1px]">
           {/* Home */}
           <NavItem
@@ -800,30 +795,16 @@ export function LeftNavigation({ onClose }: LeftNavigationProps) {
         </div>
       </div>
 
-      {/* Bottom navigation items */}
-      <div className="mt-auto px-3">
-        <div className="py-3 flex flex-col gap-1">
-          {/* Documentation */}
-          <NavItem
-            href={navigationConfig.documentation.href}
-            icon={navigationConfig.documentation.icon}
-            label={navigationConfig.documentation.label}
-            exactActive={isExactActive(navigationConfig.documentation.href)}
-            active={isActive(navigationConfig.documentation.href)}
-            isExternal={navigationConfig.documentation.isExternal}
-          />
-
-          {/* Support */}
-          <NavItem
-            href={navigationConfig.support.href}
-            icon={navigationConfig.support.icon}
-            label={navigationConfig.support.label}
-            exactActive={isExactActive(navigationConfig.support.href)}
-            active={isActive(navigationConfig.support.href)}
-          />
-        </div>
-        {/* Extra spacing at bottom */}
-        <div className="pb-2"></div>
+      {/* Fixed Documentation at bottom - always visible */}
+      <div className="flex-shrink-0 border-t border-gray-200 px-3 py-3">
+        <NavItem
+          href={navigationConfig.documentation.href}
+          icon={navigationConfig.documentation.icon}
+          label={navigationConfig.documentation.label}
+          exactActive={isExactActive(navigationConfig.documentation.href)}
+          active={isActive(navigationConfig.documentation.href)}
+          isExternal={navigationConfig.documentation.isExternal}
+        />
       </div>
     </div>
   )

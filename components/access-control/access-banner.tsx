@@ -17,6 +17,9 @@ export function AccessBanner({ onCompleteProfile, className }: AccessBannerProps
   const { user, accessLevel, getUserType } = useAuth()
   const router = useRouter()
 
+  // Hide the banner completely
+  return null
+
   // Don't show banner for full access users
   if (accessLevel === 'full') return null
 

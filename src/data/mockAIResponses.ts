@@ -83,7 +83,7 @@ export const CONVERSATION_FLOWS = {
   vm_deployment: [
     {
       user: "I need to deploy a virtual machine for my web application",
-      assistant: "I'd be happy to help you deploy a VM for your web application! Let me gather some details:\n\n🔍 **Quick Questions:**\n• What's the expected traffic/load?\n• Do you need a database on the same VM?\n• Any specific OS preference?\n\n💡 **Recommendation:** For most web apps, I'd suggest starting with our **Standard-4x8** configuration (4 vCPU, 8GB RAM) for ₹16.80/hour.",
+      assistant: "I'd be happy to help you deploy a VM for your web application! Let me gather some details:\n\n**Quick Questions:**\n• What's the expected traffic/load?\n• Do you need a database on the same VM?\n• Any specific OS preference?\n\n**Recommendation:** For most web apps, I'd suggest starting with our **Standard-4x8** configuration (4 vCPU, 8GB RAM) for ₹16.80/hour.",
       config: {
         type: 'vm',
         preset: 'medium'
@@ -150,7 +150,7 @@ export const CONVERSATION_FLOWS = {
 export const MOCK_RESPONSES: Record<string, any> = {
   // Greetings and general
   "hello": {
-    response: "Hello! 👋 I'm your Krutrim Cloud Assistant. I can help you deploy and manage cloud infrastructure through simple conversations.\n\n🚀 **What can I help you with today?**\n• Deploy Virtual Machines\n• Set up Storage solutions\n• Configure Networks\n• Launch AI Pods\n• Monitor resources\n• Optimize costs\n\nJust describe what you need in natural language!",
+    response: "Hello! I'm your StackSense Cloud Assistant. I can help you deploy and manage cloud infrastructure through simple conversations.\n\n**What can I help you with today?**\n• Deploy Virtual Machines\n• Set up Storage solutions\n• Configure Networks\n• Launch AI Pods\n• Monitor resources\n• Optimize costs\n\nJust describe what you need in natural language!",
     suggestions: [
       "Deploy a VM for my web app",
       "Set up storage for my database",
@@ -160,11 +160,11 @@ export const MOCK_RESPONSES: Record<string, any> = {
   },
 
   "help": {
-    response: "I'm here to help! Here's what I can do for you:\n\n🖥️ **Compute Services:**\n• Deploy VMs with custom specs\n• Launch GPU-powered AI Pods\n• Set up auto-scaling groups\n\n💾 **Storage Solutions:**\n• Create object storage buckets\n• Provision block storage volumes\n• Set up backup strategies\n\n🌐 **Networking:**\n• Design VPC architectures\n• Configure security groups\n• Set up load balancers\n\n📊 **Monitoring & Optimization:**\n• Cost analysis and recommendations\n• Performance monitoring\n• Resource utilization reports\n\nWhat would you like to start with?",
+    response: "I'm here to help! Here's what I can do for you:\n\n**Compute Services:**\n• Deploy VMs with custom specs\n• Launch GPU-powered AI Pods\n• Set up auto-scaling groups\n\n**Storage Solutions:**\n• Create object storage buckets\n• Provision block storage volumes\n• Set up backup strategies\n\n**Networking:**\n• Design VPC architectures\n• Configure security groups\n• Set up load balancers\n\n**Monitoring & Optimization:**\n• Cost analysis and recommendations\n• Performance monitoring\n• Resource utilization reports\n\nWhat would you like to start with?",
   },
 
   "cost": {
-    response: "💰 **Current Account Status:**\n• Balance: ₹15,750\n• This month's usage: ₹2,340\n• Projected monthly bill: ₹8,500\n\n📊 **Cost Breakdown:**\n• Compute: ₹1,680 (72%)\n• Storage: ₹480 (20%)\n• Network: ₹180 (8%)\n\n💡 **Optimization Suggestions:**\n• Switch 2 idle VMs to scheduled start/stop: Save ₹1,200/month\n• Use reserved instances: Save up to 30%\n• Archive old backups: Save ₹200/month\n\nWould you like me to implement any of these optimizations?",
+    response: "**Current Account Status:**\n• Balance: ₹15,750\n• This month's usage: ₹2,340\n• Projected monthly bill: ₹8,500\n\n**Cost Breakdown:**\n• Compute: ₹1,680 (72%)\n• Storage: ₹480 (20%)\n• Network: ₹180 (8%)\n\n**Optimization Suggestions:**\n• Switch 2 idle VMs to scheduled start/stop: Save ₹1,200/month\n• Use reserved instances: Save up to 30%\n• Archive old backups: Save ₹200/month\n\nWould you like me to implement any of these optimizations?",
     actions: [
       { label: "Schedule VMs", action: "schedule_vms", variant: "primary" },
       { label: "Show Reserved Pricing", action: "reserved_pricing", variant: "secondary" }

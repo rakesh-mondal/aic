@@ -279,7 +279,7 @@ export const usePrototypeStore = create<PrototypeStore>()(
         content: scenario.success,
         status: 'deployed',
         actions: [
-          { label: 'View in Dashboard', action: 'view_dashboard', variant: 'primary' },
+          { label: 'View', action: 'view_instance', variant: 'primary' },
           { label: 'Deploy Another', action: 'deploy_another', variant: 'secondary' }
         ]
       });

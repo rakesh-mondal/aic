@@ -248,7 +248,7 @@ export const usePrototypeChat = () => {
       case 'cost':
         addMessage({
           type: 'assistant',
-          content: `💰 **Current Account Status:**\n• Balance: ₹${userContext.balance.toLocaleString()}\n• This month's usage: ₹2,340\n• Available credit: ₹${(userContext.balance - 2340).toLocaleString()}\n\n💡 **Budget-friendly options:**\n• Small VM: ₹50/hour\n• Medium VM: ₹150/hour\n• Object Storage: ₹1.44/GB/month\n\nWhat would you like to deploy?`,
+          content: `**Current Account Status:**\n• Balance: ₹${userContext.balance.toLocaleString()}\n• This month's usage: ₹2,340\n• Available credit: ₹${(userContext.balance - 2340).toLocaleString()}\n\n**Budget-friendly options:**\n• Small VM: ₹50/hour\n• Medium VM: ₹150/hour\n• Object Storage: ₹1.44/GB/month\n\nWhat would you like to deploy?`,
           actions: [
             { label: 'Deploy Small VM', action: 'deploy_small_vm', variant: 'primary' },
             { label: 'Add More Credits', action: 'add_credits', variant: 'secondary' }

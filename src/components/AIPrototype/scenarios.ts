@@ -85,7 +85,7 @@ export const quickVMDeploy: DemoScenario = {
       content: '🎉 Successfully deployed!\n\n**VM Details:**\n• Instance ID: i-0abc123def456\n• Public IP: 203.0.113.42\n• Status: Running\n\n**Access:**\n• SSH: `ssh ubuntu@203.0.113.42`\n• Console access available in dashboard',
       delay: 1000,
       actions: [
-        { label: 'View in Dashboard', action: 'view_dashboard', variant: 'primary' },
+        { label: 'View', action: 'view_instance', variant: 'primary' },
         { label: 'Deploy Another', action: 'deploy_another', variant: 'secondary' }
       ]
     }

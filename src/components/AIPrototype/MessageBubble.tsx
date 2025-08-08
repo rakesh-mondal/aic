@@ -6,17 +6,81 @@ import { ChatMessage } from '../../data/mockAIResponses';
 import { usePrototypeStore } from '../../store/prototypeStore';
 import ConfigPreview from './ConfigPreview';
 import { Button } from '../../../components/ui/button';
+import { useRouter } from 'next/navigation';
 
 interface MessageBubbleProps {
   message: ChatMessage;
 }
 
+// Function to format message content with proper structure
+function formatMessageContent(content: string) {
+  // Remove all emojis first
+  const cleanContent = content.replace(/[\u{1F600}-\u{1F64F}]|[\u{1F300}-\u{1F5FF}]|[\u{1F680}-\u{1F6FF}]|[\u{1F1E0}-\u{1F1FF}]|[\u{2600}-\u{26FF}]|[\u{2700}-\u{27BF}]/gu, '');
+  
+  // Split content by double asterisks (section headers)
+  const sections = cleanContent.split(/\*\*(.*?)\*\*/g);
+  
+  return (
+    <div className="space-y-3">
+      {sections.map((section, index) => {
+        if (index % 2 === 1) {
+          // This is a header (between **)
+          return (
+            <h4 key={index} className="font-semibold text-gray-900 text-sm mb-3 pb-1 border-b border-gray-100">
+              {section.trim()}
+            </h4>
+          );
+        } else if (section.trim()) {
+          // This is content
+          const lines = section.trim().split('\n').filter(line => line.trim());
+          return (
+            <div key={index} className="space-y-1">
+              {lines.map((line, lineIndex) => {
+                const trimmedLine = line.trim();
+                if (trimmedLine.startsWith('•')) {
+                  // List item
+                  return (
+                    <div key={lineIndex} className="flex items-start space-x-3 py-1">
+                      <div className="w-1 h-1 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
+                      <span className="text-gray-700 text-sm">{trimmedLine.slice(1).trim()}</span>
+                    </div>
+                  );
+                } else if (trimmedLine) {
+                  // Regular text
+                  return (
+                    <p key={lineIndex} className="text-gray-700">
+                      {trimmedLine}
+                    </p>
+                  );
+                }
+                return null;
+              })}
+            </div>
+          );
+        }
+        return null;
+      })}
+    </div>
+  );
+}
+
 export default function MessageBubble({ message }: MessageBubbleProps) {
   const { handleAction } = usePrototypeStore();
+  const router = useRouter();
 
   const isUser = message.type === 'user';
   const isSuccess = message.status === 'deployed';
   const isError = message.status === 'error';
+
+  const handleActionClick = (actionType: string, config?: any) => {
+    if (actionType === 'view_instance') {
+      // Use existing VM instance from the data instead of generating random ID
+      const instanceId = 'vm-001'; // This corresponds to "Web Server 01" in the existing data
+      router.push(`/compute/vms/instances/${instanceId}`);
+    } else {
+      handleAction(actionType, config);
+    }
+  };
 
   return (
     <div className={`flex ${isUser ? 'justify-end' : 'justify-start'} animate-fadeIn`}>
@@ -47,15 +111,18 @@ export default function MessageBubble({ message }: MessageBubbleProps) {
         <div className="flex flex-col space-y-2">
           {/* Main Message Bubble */}
           <div
-            className={`px-4 py-2 rounded-lg ${
+            className={`px-4 py-4 rounded-lg ${
               isUser
                 ? 'bg-gray-900 text-white rounded-br-none'
                 : isSuccess
                 ? 'bg-green-50 text-green-800 border border-green-200 rounded-bl-none'
                 : isError
                 ? 'bg-red-50 text-red-800 border border-red-200 rounded-bl-none'
-                : 'bg-white text-gray-800 border border-gray-200 rounded-bl-none shadow-sm'
+                : 'bg-white text-gray-800 border border-gray-200 rounded-bl-none'
             }`}
+            style={{
+              borderRadius: isUser ? '16px 16px 4px 16px' : '16px 16px 16px 4px'
+            }}
           >
             {/* Status Icon */}
             {(isSuccess || isError) && (
@@ -72,13 +139,19 @@ export default function MessageBubble({ message }: MessageBubbleProps) {
             )}
 
             {/* Message Text */}
-            <div className="whitespace-pre-wrap text-sm leading-relaxed">
-              {message.content}
+            <div className="text-sm leading-relaxed">
+              {isUser ? (
+                <div className="whitespace-pre-wrap text-white">
+                  {message.content}
+                </div>
+              ) : (
+                formatMessageContent(message.content)
+              )}
             </div>
 
             {/* Timestamp */}
-            <div className={`text-xs mt-2 ${
-              isUser ? 'text-gray-300' : 'text-gray-500'
+            <div className={`text-xs mt-3 pt-2 ${
+              isUser ? 'border-t border-gray-600 text-gray-300' : 'border-t border-gray-100 text-gray-400'
             }`}>
               {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
             </div>
@@ -95,7 +168,7 @@ export default function MessageBubble({ message }: MessageBubbleProps) {
               {message.actions.map((action, index) => (
                 <Button
                   key={index}
-                  onClick={() => handleAction(action.action, message.config)}
+                  onClick={() => handleActionClick(action.action, message.config)}
                   variant={
                     action.variant === 'primary' 
                       ? 'default' 

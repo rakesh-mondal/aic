@@ -67,7 +67,7 @@ export default function ConfigPreview({ config }: ConfigPreviewProps) {
   };
 
   return (
-    <div className="bg-white border-2 border-gray-200 rounded-lg p-4 space-y-4 shadow-sm animate-slideIn">
+    <div className="bg-white border-2 border-gray-200 rounded-lg p-4 space-y-4 animate-slideIn">
       {/* Header */}
       <div className="flex items-center space-x-3">
         <div className={`w-10 h-10 bg-${color}-100 rounded-lg flex items-center justify-center`}>
